@@ -12,6 +12,7 @@ export class LoginPage {
     readonly lostPasswordLink: Locator;
     readonly goToSiteLink: Locator;
     readonly loginError: Locator;
+    
 
     constructor (page: Page) {
         this.page = page;
@@ -23,6 +24,7 @@ export class LoginPage {
         this.lostPasswordLink = page.locator ("//a[@class = 'wp-login-lost-password']")
         this.goToSiteLink = page.locator ("//p[@id= 'backtoblog']")
         this.loginError = page.locator ("//div[@id='login_error']");
+        
     }
 
     //Navigate to the Login Page

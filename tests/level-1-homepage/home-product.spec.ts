@@ -35,7 +35,7 @@ test.describe('Test product', async () => {
         await expect(page.locator("//div[@class = 'woocommerce-product-details__short-description']")).toBeVisible();
         
         //Step 8: kiểm tra button thêm vào giỏ hàng      
-        const addToCarButton = page.locator("//button [@value = '2523']")
+        const addToCarButton = page.locator("//button[@name = 'add-to-cart']")
         await expect(page.locator("//button[@name = 'add-to-cart']")).toBeVisible();
         await expect(page.locator("//button[@name = 'add-to-cart']")).toBeEnabled();
 
