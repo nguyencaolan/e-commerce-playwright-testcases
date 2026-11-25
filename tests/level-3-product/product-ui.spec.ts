@@ -222,10 +222,25 @@ test.describe('PRODUCT', () => {
         await expect(productPage.upsells).toBeEnabled();
         await expect(productPage.crossSells).toBeVisible();
         await expect(productPage.crossSells).toBeEnabled();
-
-        // Verify Upsells
+        
         // Verify Upsells
         await productPage.upsellsSearch.fill('123');
+        await productPage.page.waitForTimeout(2000);
+
+console.log(
+    'Upsells search input:',
+    await productPage.upsellsSearch.inputValue()
+);
+
+console.log(
+    'Upsells result visible:',
+    await productPage.selectUpsells.isVisible()
+);
+
+console.log(
+    'Upsells result HTML:',
+    await productPage.selectUpsells.innerHTML()
+);
 
         const upsellsOptions = productPage.selectUpsells.getByRole('option');
 
@@ -259,6 +274,22 @@ test.describe('PRODUCT', () => {
 
         // Verify Cross-sells
         await productPage.crossSellsSearch.fill('123');
+        await productPage.page.waitForTimeout(2000);
+
+console.log(
+    'Cross-sells search input:',
+    await productPage.crossSellsSearch.inputValue()
+);
+
+console.log(
+    'Cross-sells result visible:',
+    await productPage.selectCrossSells.isVisible()
+);
+
+console.log(
+    'Cross-sells result HTML:',
+    await productPage.selectCrossSells.innerHTML()
+);
 
         const crossSellsOptions = productPage.selectCrossSells.getByRole('option');
 
