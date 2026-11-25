@@ -216,52 +216,82 @@ test.describe('PRODUCT', () => {
         await expect(productPage.shippingClass).toHaveValue('-1');
 
         // verify Linked Products
+
         await productPage.linkedProductsTab.click();
         await expect(productPage.upsells).toBeVisible();
         await expect(productPage.upsells).toBeEnabled();
         await expect(productPage.crossSells).toBeVisible();
         await expect(productPage.crossSells).toBeEnabled();
-        
-await productPage.upsellsSearch.fill('123');
 
-await expect(productPage.upsellsOption).toBeVisible({
-    timeout: 15000,
-});
+        // Verify Upsells
+        // Verify Upsells
+        await productPage.upsellsSearch.fill('123');
 
-const upsellsText = (await productPage.upsellsOption.innerText()).trim();
+        const upsellsOptions = productPage.selectUpsells.getByRole('option');
 
-console.log('Upsells selected:', upsellsText);
+        // Wait until a dynamic product option appears
+        await expect.poll(
+            async () => {
+                const texts = await upsellsOptions.allTextContents();
+                return texts.some(text => /^\(#\d+\)$/.test(text.trim()));
+            },
+            { timeout: 15000 }
+        ).toBe(true);
 
-await productPage.upsellsOption.click();
+        const upsellsText = (
+            await productPage.upsellsOption.innerText()
+        ).trim();
 
-await expect(productPage.upsellsSelected).toBeVisible();
-await expect(productPage.upsellsSelected).toContainText(upsellsText);
+        console.log('Upsells selected:', upsellsText);
 
-// Remove selected Upsell
-await productPage.upsellsRemove.click();
+        // Select Upsells
 
-await expect(productPage.upsellsSelected).toBeHidden();
+        await productPage.upsellsOption.click();
+        await expect(productPage.upsellsSelected).toBeVisible();
+        await expect(productPage.upsellsSelected).toContainText(upsellsText);
+
+        // Remove Upsells
+        await productPage.upsellsRemove.click();
+        await expect(productPage.upsellsSelected).toBeHidden();
+
+        // Verify Cross-sells
 
 
-await productPage.crossSellsSearch.fill('123');
+        // Verify Cross-sells
+        await productPage.crossSellsSearch.fill('123');
 
-await expect(productPage.crossSellsOption).toBeVisible({
-    timeout: 15000,
-});
+        const crossSellsOptions = productPage.selectCrossSells.getByRole('option');
 
-const crossSellsText = (await productPage.crossSellsOption.innerText()).trim();
+        // Wait until a dynamic product option appears
+        await expect.poll(
+            async () => {
+                const texts = await crossSellsOptions.allTextContents();
+                return texts.some(text => /^\(#\d+\)$/.test(text.trim()));
+            },
+            { timeout: 15000 }
+        ).toBe(true);
 
-console.log('Cross-sells selected:', crossSellsText);
+        const crossSellsText = (
+            await productPage.crossSellsOption.innerText()
+        ).trim();
 
-await productPage.crossSellsOption.click();
+        console.log('Cross-sells selected:', crossSellsText);
 
-await expect(productPage.crossSellSelected).toBeVisible();
-await expect(productPage.crossSellSelected).toContainText(crossSellsText);
+        // Select Cross-sells
+        await productPage.crossSellsOption.click();
 
-// Remove selected Cross-sell
-await productPage.crossSellSRemove.click();
+        await expect(productPage.crossSellSelected).toBeVisible();
+        await expect(productPage.crossSellSelected).toContainText(crossSellsText);
 
-await expect(productPage.crossSellSelected).toBeHidden();
+        // Remove Cross-sells
+        await productPage.crossSellSRemove.click();
+
+        await expect(productPage.crossSellSelected).toBeHidden();
+
+
+        // Verify Attributes
+        await productPage.attributesTab.click();
+        await expect(productPage.attributesPanel).toBeVisible();
 
 
 
