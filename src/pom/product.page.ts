@@ -162,24 +162,37 @@ export class ProductPage {
         this.crossSellsSearch = page.locator('#crosssell_ids + span.select2-container input.select2-search__field');
 
         this.selectUpsells = page.locator('#select2-upsell_ids-results');
-        this.selectUpsells.getByRole('option', { name: '(#2999)' });
-        this.upsellsOption = this.selectUpsells.getByRole('option', { name: '(#2999)', });
-        this.upsellsSelected = page
-            .locator('#upsell_ids')
-            .locator('xpath=following-sibling::span')
-            .locator('.select2-selection__choice');
-        this.upsellsRemove = this.upsellsSelected.locator('.select2-selection__choice__remove');
 
-        this.selectCrossSells = page.locator ('#select2-crosssell_ids-results');   
-        this.selectCrossSells.getByRole('option', { name: '(#2999)' });
-        this.crossSellsOption = this.selectCrossSells.getByRole('option', { name: '(#2999)', });
-        this.crossSellSelected = page
-            .locator('#crosssell_ids')
-            .locator('xpath=following-sibling::span')
-            .locator('.select2-selection__choice');
-        this.crossSellSRemove = this.crossSellSelected.locator('.select2-selection__choice__remove');
+// Find product option without hardcoding product ID
+this.upsellsOption = this.selectUpsells
+    .getByRole('option')
+    .filter({ hasText: /^\(#\d+\)$/ });
 
-        //Attributes
+this.upsellsSelected = page
+    .locator('#upsell_ids')
+    .locator('xpath=following-sibling::span')
+    .locator('.select2-selection__choice');
+
+this.upsellsRemove = this.upsellsSelected.locator(
+    '.select2-selection__choice__remove'
+);
+
+        this.selectCrossSells = page.locator('#select2-crosssell_ids-results');
+
+// Find product option without hardcoding product ID
+this.crossSellsOption = this.selectCrossSells
+    .getByRole('option')
+    .filter({ hasText: /^\(#\d+\)$/ });
+
+this.crossSellSelected = page
+    .locator('#crosssell_ids')
+    .locator('xpath=following-sibling::span')
+    .locator('.select2-selection__choice');
+
+this.crossSellSRemove = this.crossSellSelected.locator(
+    '.select2-selection__choice__remove'
+);
+        //Attributesƒ
         this.attributesTab = page.locator('.attribute_tab a');
         this.attributesPanel = page.locator('#product_attributes');
 

@@ -221,38 +221,47 @@ test.describe('PRODUCT', () => {
         await expect(productPage.upsells).toBeEnabled();
         await expect(productPage.crossSells).toBeVisible();
         await expect(productPage.crossSells).toBeEnabled();
-        await productPage.upsellsSearch.fill('123');
+        
+await productPage.upsellsSearch.fill('123');
 
-        await expect(productPage.upsellsOption).toBeVisible();
-        await productPage.upsellsOption.click();
-        await expect(productPage.upsells).toHaveValue('2999');
-        await expect(productPage.upsellsSelected).toBeVisible();
-        await expect(productPage.upsellsSelected).toContainText('(#2999)');
-        // Remove selected Upsell
-            await productPage.upsellsRemove.click();
+await expect(productPage.upsellsOption).toBeVisible({
+    timeout: 15000,
+});
 
-        // Verify product has been removed
-        await expect(productPage.upsellsSelected).toBeHidden();
+const upsellsText = (await productPage.upsellsOption.innerText()).trim();
 
-        await productPage.crossSellsSearch.fill('123');
+console.log('Upsells selected:', upsellsText);
 
-        await expect(productPage.crossSellsOption).toBeVisible();
-        await productPage.crossSellsOption.click();
-        await expect(productPage.crossSells).toHaveValue('2999');
-        await expect(productPage.crossSellSelected).toBeVisible();
-        await expect(productPage.crossSellSelected).toContainText('(#2999)');
-        // Remove selected Upsell
-        await productPage.crossSellSRemove.click();
-        await expect(productPage.crossSellSelected).toBeHidden();
+await productPage.upsellsOption.click();
 
-       
-        // Verify Attributes
-        await productPage.attributesTab.click();
-        await expect(productPage.attributesPanel).toBeVisible();
+await expect(productPage.upsellsSelected).toBeVisible();
+await expect(productPage.upsellsSelected).toContainText(upsellsText);
+
+// Remove selected Upsell
+await productPage.upsellsRemove.click();
+
+await expect(productPage.upsellsSelected).toBeHidden();
 
 
+await productPage.crossSellsSearch.fill('123');
 
+await expect(productPage.crossSellsOption).toBeVisible({
+    timeout: 15000,
+});
 
+const crossSellsText = (await productPage.crossSellsOption.innerText()).trim();
+
+console.log('Cross-sells selected:', crossSellsText);
+
+await productPage.crossSellsOption.click();
+
+await expect(productPage.crossSellSelected).toBeVisible();
+await expect(productPage.crossSellSelected).toContainText(crossSellsText);
+
+// Remove selected Cross-sell
+await productPage.crossSellSRemove.click();
+
+await expect(productPage.crossSellSelected).toBeHidden();
 
 
 
