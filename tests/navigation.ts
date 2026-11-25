@@ -6,6 +6,8 @@ const DETAIL_URL =('https://e-commerce-dev.betterbytesvn.com/product/fullstack-a
 
 export async function gotoHomePage (page: Page): Promise<void> {
     await page.goto(BASE_URL);
+    console.log('Current URL:', page.url());
+    console.log('Current Title:', await page.title());
     
     
 }
